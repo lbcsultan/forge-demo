@@ -70,6 +70,16 @@ export default function LoginScreen() {
     }
   }
 
+  const naverLoginHandler = async () => {
+    try {
+      const result = await signIn('naver', {
+        redirect: false,
+      })
+    } catch (err) {
+      toast.error(getError(err))
+    }
+  }
+
   return (
     <Layout title="Login">
       <form className="mx-auto max-w-screen-md w-80">
@@ -146,6 +156,16 @@ export default function LoginScreen() {
             onClick={kakaoLoginHandler}
           >
             Kakao Login
+          </button>
+        </div>
+
+        <div className="mb-4">
+          <button
+            className="primary-button w-full"
+            type="button"
+            onClick={naverLoginHandler}
+          >
+            Naver Login
           </button>
         </div>
       </form>
