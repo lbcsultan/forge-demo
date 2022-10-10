@@ -1,8 +1,11 @@
-import NextAuth from 'next-auth/next';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import User from '../../../models/User';
-import db from '../../../utils/db';
-import bcrypt from 'bcryptjs';
+import NextAuth from 'next-auth/next'
+import CredentialsProvider from 'next-auth/providers/credentials'
+import GithubProvider from 'next-auth/providers/github'
+import GoogleProvider from 'next-auth/providers/google'
+import KakaoProvider from 'next-auth/providers/kakao'
+import User from '../../../models/User'
+import db from '../../../utils/db'
+import bcrypt from 'bcryptjs'
 
 export default NextAuth({
   session: {
@@ -10,24 +13,24 @@ export default NextAuth({
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user?._id) token._id = user._id;
-      if (user?.isAdmin) token.isAdmin = user.isAdmin;
-      return token;
+      if (user?._id) token._id = user._id
+      if (user?.isAdmin) token.isAdmin = user.isAdmin
+      return token
     },
     async session({ session, token }) {
-      if (token?._id) session._id = token._id;
-      if (token?.isAdmin) session.isAdmin = token.isAdmin;
-      return session;
+      if (token?._id) session._id = token._id
+      if (token?.isAdmin) session.isAdmin = token.isAdmin
+      return session
     },
   },
   providers: [
     CredentialsProvider({
       async authorize(credentials) {
-        await db.connect();
+        await db.connect()
         const user = await User.findOne({
           email: credentials.email,
-        });
-        await db.disconnect();
+        })
+        await db.disconnect()
         if (user && bcrypt.compareSync(credentials.password, user.password)) {
           return {
             _id: user._id,
@@ -35,10 +38,22 @@ export default NextAuth({
             email: user.email,
             image: 'f',
             isAdmin: user.isAdmin,
-          };
+          }
         }
-        throw new Error('Invalid email or password');
+        throw new Error('Invalid email or password')
       },
     }),
+    GithubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+    KakaoProvider({
+      clientId: process.env.KAKAO_CLIENT_ID,
+      clientSecret: process.env.KAKAO_CLIENT_SECRET,
+    }),
   ],
-});
+})

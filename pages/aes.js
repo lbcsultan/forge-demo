@@ -1,80 +1,80 @@
-import React, { useEffect, useState } from 'react';
-import Layout from '../components/Layout';
-import Image from 'next/image';
-import symmetricPic from '../public/symmetric.jpg';
-import forge from 'node-forge';
+import React, { useEffect, useState } from 'react'
+import Layout from '../components/Layout'
+import Image from 'next/image'
+import symmetricPic from '../public/symmetric.jpg'
+import forge from 'node-forge'
 
 export default function AESScreen() {
-  const modes = ['ECB', 'CBC'];
-  const lengths = [128, 192, 256];
+  const modes = ['ECB', 'CBC']
+  const lengths = [128, 192, 256]
 
-  const [mode, setMode] = useState('CBC');
-  const [keyLength, setKeyLength] = useState(128);
-  const [key, setKey] = useState('');
-  const [keyHex, setKeyHex] = useState('');
-  const [iv, setIv] = useState('');
-  const [ivHex, setIvHex] = useState('');
+  const [mode, setMode] = useState('CBC')
+  const [keyLength, setKeyLength] = useState(128)
+  const [key, setKey] = useState('')
+  const [keyHex, setKeyHex] = useState('')
+  const [iv, setIv] = useState('')
+  const [ivHex, setIvHex] = useState('')
   const [plaintext, setPlaintext] = useState(
     'Hello world - 헬로월드 - 全国の新たな感染者 - 备孕者可以接种新冠疫苗'
-  );
-  const [ciphertext, setCiphertext] = useState('');
-  const [ciphertextHex, setCiphertextHex] = useState('');
-  const [recoveredtext, setRecoveredtext] = useState('');
+  )
+  const [ciphertext, setCiphertext] = useState('')
+  const [ciphertextHex, setCiphertextHex] = useState('')
+  const [recoveredtext, setRecoveredtext] = useState('')
 
   const randomKey = () => {
-    let key = forge.random.getBytesSync(keyLength / 8);
-    let keyHex = forge.util.bytesToHex(key);
-    let iv, ivHex;
+    let key = forge.random.getBytesSync(keyLength / 8)
+    let keyHex = forge.util.bytesToHex(key)
+    let iv, ivHex
     if (mode === 'ECB') {
-      iv = '';
-      ivHex = '';
+      iv = ''
+      ivHex = ''
     } else if (mode === 'CBC') {
-      iv = forge.random.getBytesSync(keyLength / 8);
-      ivHex = forge.util.bytesToHex(iv);
+      iv = forge.random.getBytesSync(keyLength / 8)
+      ivHex = forge.util.bytesToHex(iv)
     }
-    setKey(key);
-    setKeyHex(keyHex);
-    setIv(iv);
-    setIvHex(ivHex);
-  };
+    setKey(key)
+    setKeyHex(keyHex)
+    setIv(iv)
+    setIvHex(ivHex)
+  }
 
   const encryptHandler = () => {
     if (mode === 'ECB') {
-      let cipher = forge.cipher.createCipher('AES-ECB', key);
-      cipher.start();
-      cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(plaintext)));
-      cipher.finish();
-      setCiphertext(cipher.output);
-      setCiphertextHex(cipher.output.toHex());
+      let cipher = forge.cipher.createCipher('AES-ECB', key)
+      cipher.start()
+      cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(plaintext)))
+      cipher.finish()
+      setCiphertext(cipher.output)
+      setCiphertextHex(cipher.output.toHex())
     } else if (mode === 'CBC') {
-      let cipher = forge.cipher.createCipher('AES-CBC', key);
-      cipher.start({ iv: iv });
-      cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(plaintext)));
-      cipher.finish();
-      setCiphertext(cipher.output);
-      setCiphertextHex(cipher.output.toHex());
+      let cipher = forge.cipher.createCipher('AES-CBC', key)
+      cipher.start({ iv: iv })
+      cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(plaintext)))
+      cipher.finish()
+      setCiphertext(cipher.output)
+      setCiphertextHex(cipher.output.toHex())
     }
-  };
+  }
 
   const decryptHandler = () => {
     if (mode === 'ECB') {
-      let decipher = forge.cipher.createDecipher('AES-ECB', key);
-      decipher.start();
-      decipher.update(ciphertext);
-      decipher.finish();
-      setRecoveredtext(decipher.output);
+      let decipher = forge.cipher.createDecipher('AES-ECB', key)
+      decipher.start()
+      decipher.update(ciphertext)
+      decipher.finish()
+      setRecoveredtext(decipher.output)
     } else if (mode === 'CBC') {
-      let decipher = forge.cipher.createDecipher('AES-CBC', key);
-      decipher.start({ iv: iv });
-      decipher.update(ciphertext);
-      decipher.finish();
-      setRecoveredtext(decipher.output);
+      let decipher = forge.cipher.createDecipher('AES-CBC', key)
+      decipher.start({ iv: iv })
+      decipher.update(ciphertext)
+      decipher.finish()
+      setRecoveredtext(decipher.output)
     }
-  };
+  }
 
   return (
     <Layout title="AES">
-      <form className="mx-auto max-w-screen-md">
+      <form className="mx-auto max-w-screen-lg">
         <h1 className="text-3xl mb-4 font-bold">AES (대칭키 암호화)</h1>
 
         <div className="mb-4 ">
@@ -236,5 +236,5 @@ export default function AESScreen() {
         </div>
       </form>
     </Layout>
-  );
+  )
 }

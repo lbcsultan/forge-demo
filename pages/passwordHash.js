@@ -28,7 +28,7 @@ export default function PasswordHashScreen() {
 
   return (
     <Layout title="PasswordHash">
-      <form className="mx-auto max-w-screen-md">
+      <form className="mx-auto max-w-screen-lg">
         <h1 className="text-3xl mb-4 font-bold">
           Password Hash Salting (패스워드 해시 저장)
         </h1>

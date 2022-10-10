@@ -82,7 +82,7 @@ export default function CertScreen() {
 
   return (
     <Layout title="Cert">
-      <form className="mx-auto max-w-screen-md">
+      <form className="mx-auto max-w-screen-lg">
         <h1 className="text-3xl mb-4 font-bold">
           X.509 Certificate (인증서 발급 및 활용)
         </h1>

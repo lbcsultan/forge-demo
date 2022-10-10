@@ -31,7 +31,7 @@ export default function HMACScreen() {
 
   return (
     <Layout title="HMAC">
-      <form className="mx-auto max-w-screen-md">
+      <form className="mx-auto max-w-screen-lg">
         <h1 className="text-3xl mb-4 font-bold">HMAC (메시지인증코드) </h1>
 
         <div className="mb-4 flex flex-row">

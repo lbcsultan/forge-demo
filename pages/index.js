@@ -6,7 +6,7 @@ import CryptoPic from '../public/crypto.jpg'
 export default function Home() {
   return (
     <Layout title="Home">
-      <div className="mx-auto max-w-screen-md">
+      <div className="mx-auto max-w-screen-lg">
         <h1 className="text-3xl mb-2">Javascript cryptography demo </h1>
         <br />
 

@@ -1,61 +1,61 @@
-import React, { useState } from 'react';
-import Layout from '../components/Layout';
-import Image from 'next/image';
-import rsakeyPic from '../public/rsa-key.jpg';
-import rsaencPic from '../public/rsa-enc.jpg';
-import forge from 'node-forge';
+import React, { useState } from 'react'
+import Layout from '../components/Layout'
+import Image from 'next/image'
+import rsakeyPic from '../public/rsa-key.jpg'
+import rsaencPic from '../public/rsa-enc.jpg'
+import forge from 'node-forge'
 
-const rsa = forge.pki.rsa;
-const pki = forge.pki;
+const rsa = forge.pki.rsa
+const pki = forge.pki
 
 export default function RSAEncScreen() {
-  const lengths = [1024, 2048, 3072];
+  const lengths = [1024, 2048, 3072]
 
-  const [keyLength, setKeyLength] = useState(1024);
-  const [publicKey, setPublicKey] = useState('');
-  const [publicKeyPem, setPublicKeyPem] = useState('');
-  const [privateKey, setPrivateKey] = useState('');
-  const [privateKeyPem, setPrivateKeyPem] = useState('');
-  const [n, setN] = useState();
-  const [p, setP] = useState();
-  const [q, setQ] = useState();
-  const [e, setE] = useState();
-  const [d, setD] = useState();
+  const [keyLength, setKeyLength] = useState(1024)
+  const [publicKey, setPublicKey] = useState('')
+  const [publicKeyPem, setPublicKeyPem] = useState('')
+  const [privateKey, setPrivateKey] = useState('')
+  const [privateKeyPem, setPrivateKeyPem] = useState('')
+  const [n, setN] = useState()
+  const [p, setP] = useState()
+  const [q, setQ] = useState()
+  const [e, setE] = useState()
+  const [d, setD] = useState()
 
-  const [plaintext, setPlaintext] = useState('Hello world - 헬로월드');
-  const [ciphertext, setCiphertext] = useState('');
-  const [ciphertextHex, setCiphertextHex] = useState('');
-  const [recoveredtext, setRecoveredtext] = useState('');
+  const [plaintext, setPlaintext] = useState('Hello world - 헬로월드')
+  const [ciphertext, setCiphertext] = useState('')
+  const [ciphertextHex, setCiphertextHex] = useState('')
+  const [recoveredtext, setRecoveredtext] = useState('')
 
   const keyGen = () => {
-    const keypair = rsa.generateKeyPair({ bits: keyLength, e: 0x10001 });
-    setPublicKey(keypair.publicKey);
-    setPublicKeyPem(pki.publicKeyToPem(keypair.publicKey));
-    setPrivateKey(keypair.privateKey);
-    setPrivateKeyPem(pki.privateKeyToPem(keypair.privateKey));
-    setN(keypair.publicKey.n);
-    setE(keypair.publicKey.e);
-    setP(keypair.privateKey.p);
-    setQ(keypair.privateKey.q);
-    setD(keypair.privateKey.d);
-  };
+    const keypair = rsa.generateKeyPair({ bits: keyLength, e: 0x10001 })
+    setPublicKey(keypair.publicKey)
+    setPublicKeyPem(pki.publicKeyToPem(keypair.publicKey))
+    setPrivateKey(keypair.privateKey)
+    setPrivateKeyPem(pki.privateKeyToPem(keypair.privateKey))
+    setN(keypair.publicKey.n)
+    setE(keypair.publicKey.e)
+    setP(keypair.privateKey.p)
+    setQ(keypair.privateKey.q)
+    setD(keypair.privateKey.d)
+  }
 
   const encryptHandler = () => {
-    let bytes = forge.util.encodeUtf8(plaintext);
-    let encrypted = publicKey.encrypt(bytes);
-    let encryptedHex = forge.util.bytesToHex(encrypted);
-    setCiphertext(encrypted);
-    setCiphertextHex(encryptedHex);
-  };
+    let bytes = forge.util.encodeUtf8(plaintext)
+    let encrypted = publicKey.encrypt(bytes)
+    let encryptedHex = forge.util.bytesToHex(encrypted)
+    setCiphertext(encrypted)
+    setCiphertextHex(encryptedHex)
+  }
 
   const decryptHandler = () => {
-    let decrypted = privateKey.decrypt(ciphertext);
-    setRecoveredtext(forge.util.decodeUtf8(decrypted));
-  };
+    let decrypted = privateKey.decrypt(ciphertext)
+    setRecoveredtext(forge.util.decodeUtf8(decrypted))
+  }
 
   return (
     <Layout title="RSA-Enc">
-      <form className="mx-auto max-w-screen-md">
+      <form className="mx-auto max-w-screen-lg">
         <h1 className="text-3xl mb-4 font-bold">
           RSA Encryption (공개키 암호화)
         </h1>
@@ -285,5 +285,5 @@ export default function RSAEncScreen() {
         </div>
       </form>
     </Layout>
-  );
+  )
 }

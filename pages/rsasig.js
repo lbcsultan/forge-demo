@@ -57,7 +57,7 @@ export default function RSASigScreen() {
 
   return (
     <Layout title="RSA-Sig">
-      <form className="mx-auto max-w-screen-md">
+      <form className="mx-auto max-w-screen-lg">
         <h1 className="text-3xl mb-4 font-bold">RSA Signature (전자서명)</h1>
 
         <div className="mb-4 ">

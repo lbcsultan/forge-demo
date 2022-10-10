@@ -1,55 +1,55 @@
-import React, { useState } from 'react';
-import Layout from '../components/Layout';
-import forge from 'node-forge';
-import Image from 'next/image';
-import hashPic from '../public/hash.jpg';
-import axios from 'axios';
+import React, { useState } from 'react'
+import Layout from '../components/Layout'
+import forge from 'node-forge'
+import Image from 'next/image'
+import hashPic from '../public/hash.jpg'
+import axios from 'axios'
 
 export default function HashScreen() {
-  const algorithms = ['md5', 'sha1', 'sha256', 'sha384', 'sha512'];
+  const algorithms = ['md5', 'sha1', 'sha256', 'sha384', 'sha512']
 
-  const [algorithm, setAlgorithm] = useState('sha256');
-  const [inputText, setInputText] = useState('input your message');
-  const [hashValue1, setHashValue1] = useState('');
-  const [hashValue2, setHashValue2] = useState('');
+  const [algorithm, setAlgorithm] = useState('sha256')
+  const [inputText, setInputText] = useState('input your message')
+  const [hashValue1, setHashValue1] = useState('')
+  const [hashValue2, setHashValue2] = useState('')
 
   const submitHandler = async () => {
     axios.post('/api/hash', { algorithm, inputText }).then((res) => {
-      setHashValue2(res.data.hashValue);
-    });
+      setHashValue2(res.data.hashValue)
+    })
 
     switch (algorithm) {
       case 'md5':
-        var md = forge.md.md5.create();
-        md.update(inputText);
-        setHashValue1(md.digest().toHex());
-        return;
+        var md = forge.md.md5.create()
+        md.update(inputText)
+        setHashValue1(md.digest().toHex())
+        return
       case 'sha1':
-        var md = forge.md.sha1.create();
-        md.update(inputText);
-        setHashValue1(md.digest().toHex());
-        return;
+        var md = forge.md.sha1.create()
+        md.update(inputText)
+        setHashValue1(md.digest().toHex())
+        return
       case 'sha256':
-        var md = forge.md.sha256.create();
-        md.update(inputText);
-        setHashValue1(md.digest().toHex());
-        return;
+        var md = forge.md.sha256.create()
+        md.update(inputText)
+        setHashValue1(md.digest().toHex())
+        return
       case 'sha384':
-        var md = forge.md.sha384.create();
-        md.update(inputText);
-        setHashValue1(md.digest().toHex());
-        return;
+        var md = forge.md.sha384.create()
+        md.update(inputText)
+        setHashValue1(md.digest().toHex())
+        return
       case 'sha512':
-        var md = forge.md.sha512.create();
-        md.update(inputText);
-        setHashValue1(md.digest().toHex());
-        return;
+        var md = forge.md.sha512.create()
+        md.update(inputText)
+        setHashValue1(md.digest().toHex())
+        return
     }
-  };
+  }
 
   return (
     <Layout title="Hash">
-      <form className="mx-auto max-w-screen-md">
+      <form className="mx-auto max-w-screen-lg">
         <h1 className="text-3xl mb-4 font-bold">Hash (해시함수)</h1>
 
         <div className="mb-4 flex flex-row">
@@ -121,5 +121,5 @@ export default function HashScreen() {
         </div>
       </form>
     </Layout>
-  );
+  )
 }

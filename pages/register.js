@@ -1,27 +1,27 @@
-import Link from 'next/link';
-import { signIn, useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import Layout from '../components/Layout';
-import { toast } from 'react-toastify';
-import { getError } from '../utils/error';
-import { useRouter } from 'next/router';
-import axios from 'axios';
+import Link from 'next/link'
+import { signIn, useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import Layout from '../components/Layout'
+import { toast } from 'react-toastify'
+import { getError } from '../utils/error'
+import { useRouter } from 'next/router'
+import axios from 'axios'
 
 export default function RegisterScreen() {
-  const { data: session } = useSession();
-  const router = useRouter();
-  const { redirect } = router.query;
+  const { data: session } = useSession()
+  const router = useRouter()
+  const { redirect } = router.query
 
   useEffect(() => {
     if (session?.user) {
-      router.push(redirect || '/');
+      router.push(redirect || '/')
     }
-  }, [router, session, redirect]);
+  }, [router, session, redirect])
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   const registerHandler = async () => {
     try {
@@ -29,24 +29,24 @@ export default function RegisterScreen() {
         name,
         email,
         password,
-      });
+      })
 
       const result = await signIn('credentials', {
         redirect: false,
         email,
         password,
-      });
+      })
       if (result.error) {
-        toast.error(result.error);
+        toast.error(result.error)
       }
     } catch (err) {
-      toast.error(getError(err));
+      toast.error(getError(err))
     }
-  };
+  }
 
   return (
     <Layout title="Register">
-      <form className="mx-auto max-w-screen-md w-80">
+      <form className="mx-auto max-w-screen-lg w-80">
         <h1 className="text-3xl mb-4 font-bold">Register (사용자 등록) </h1>
 
         <div className="mb-4">
@@ -122,5 +122,5 @@ export default function RegisterScreen() {
         </div>
       </form>
     </Layout>
-  );
+  )
 }

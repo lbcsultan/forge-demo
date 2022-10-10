@@ -33,7 +33,7 @@ export default function Pbkdf2Screen() {
 
   return (
     <Layout title="PBKDF2">
-      <form className="mx-auto max-w-screen-md">
+      <form className="mx-auto max-w-screen-lg">
         <h1 className="text-3xl mb-4 font-bold">
           PBKDF2 (패스워드 기반 키생성)
         </h1>

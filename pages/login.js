@@ -1,44 +1,74 @@
-import Link from 'next/link';
-import { signIn, useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import Layout from '../components/Layout';
-import { toast } from 'react-toastify';
-import { getError } from '../utils/error';
-import Router, { useRouter } from 'next/router';
+import Link from 'next/link'
+import { signIn, useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import Layout from '../components/Layout'
+import { toast } from 'react-toastify'
+import { getError } from '../utils/error'
+import Router, { useRouter } from 'next/router'
 
 export default function LoginScreen() {
-  const { data: session } = useSession();
-  const router = useRouter();
-  const { redirect } = router.query;
+  const { data: session } = useSession()
+  const router = useRouter()
+  const { redirect } = router.query
 
   useEffect(() => {
     if (session?.user) {
-      router.push(redirect || '/');
+      router.push(redirect || '/')
     }
-  }, [router, session, redirect]);
+  }, [router, session, redirect])
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const loginHandler = async () => {
     const credential = {
       email,
       password,
-    };
+    }
 
     try {
       const result = await signIn('credentials', {
         redirect: false,
         email,
         password,
-      });
+      })
       if (result.error) {
-        toast.error(result.error);
+        toast.error(result.error)
       }
     } catch (err) {
-      toast.error(getError(err));
+      toast.error(getError(err))
     }
-  };
+  }
+
+  const githubLoginHandler = async () => {
+    try {
+      const result = await signIn('github', {
+        redirect: false,
+      })
+    } catch (err) {
+      toast.error(getError(err))
+    }
+  }
+
+  const googleLoginHandler = async () => {
+    try {
+      const result = await signIn('google', {
+        redirect: false,
+      })
+    } catch (err) {
+      toast.error(getError(err))
+    }
+  }
+
+  const kakaoLoginHandler = async () => {
+    try {
+      const result = await signIn('kakao', {
+        redirect: false,
+      })
+    } catch (err) {
+      toast.error(getError(err))
+    }
+  }
 
   return (
     <Layout title="Login">
@@ -88,7 +118,37 @@ export default function LoginScreen() {
           Don&apos;t have an account? &nbsp;
           <Link href={`/register?redirect=${redirect || '/'}`}>Register</Link>
         </div>
+
+        <div className="mb-4">
+          <button
+            className="primary-button w-full"
+            type="button"
+            onClick={githubLoginHandler}
+          >
+            Github Login
+          </button>
+        </div>
+
+        <div className="mb-4">
+          <button
+            className="primary-button w-full"
+            type="button"
+            onClick={googleLoginHandler}
+          >
+            Google Login
+          </button>
+        </div>
+
+        <div className="mb-4">
+          <button
+            className="primary-button w-full"
+            type="button"
+            onClick={kakaoLoginHandler}
+          >
+            Kakao Login
+          </button>
+        </div>
       </form>
     </Layout>
-  );
+  )
 }

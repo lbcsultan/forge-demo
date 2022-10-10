@@ -34,7 +34,7 @@ export default function JwtScreen() {
 
   return (
     <Layout title="JWT">
-      <form className="mx-auto max-w-screen-md">
+      <form className="mx-auto max-w-screen-lg">
         <h1 className="text-3xl mb-4 font-bold">JSON Web Token (JWT)</h1>
         <p>
           JSON Web Tokens are an open, industry standard RFC 7519 method for
